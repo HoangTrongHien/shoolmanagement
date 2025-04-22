@@ -17,10 +17,10 @@ namespace SchoolManagement.Models.Entities
 
         public string Phone { get; set; }
 
-        public int UserId { get; set; }
+        public int UserId { get; set; } //TODO
 
         public ICollection<TeacherSubscription> TeacherSubscriptions { get; set; }
 
-        public User User { get; set; }
+        public TeacherAccount TeacherAccount { get; set; }
     }
 }

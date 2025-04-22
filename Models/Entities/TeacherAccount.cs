@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchoolManagement.Models.Entities
 {
-    public class User
+    public class TeacherAccount
     {
         public int Id { get; set; }
 
@@ -12,8 +12,6 @@ namespace SchoolManagement.Models.Entities
         [Required]
         public string Password { get; set; }
 
-        [Required]
-        public string Role { get; set; }
 
     }
 }

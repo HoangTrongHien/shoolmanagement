@@ -20,10 +20,10 @@ namespace SchoolManagement.Models.Entities
         public string Email { get; set; }
 
         [Required]
-        public string UserId { get; set; }
+        public string UserId { get; set; } //TODO
 
         public ICollection<StudentSubscription> StudentSubscriptions { get; set; }
 
-        public User User { get; set; }
+        public StudentAccount StudentAccount { get; set; }
     }
 }

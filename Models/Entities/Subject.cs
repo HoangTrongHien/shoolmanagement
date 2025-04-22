@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchoolManagement.Models.Entities
 {
-    public class Class
+    public class Subject
     {
         public int Id { get; set; }
 

@@ -8,9 +8,11 @@ namespace SchoolManagement.Models.Entities
 
         [Required]
         public int TeacherId { get; set; }
+        public Teacher Teacher { get; set; }
 
         [Required]
         public int OnTeachClassId { get; set; }
+        public OnTeachClass OnTeachClass { get; set; }
 
         [Required]
         public DateTime CreatedAt { get; set; }
