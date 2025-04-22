@@ -1,0 +1,47 @@
+## Ignore build output
+bin/
+obj/
+out/
+
+## Ignore user-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Ignore VS Code settings
+.vscode/
+
+## Ignore Rider settings
+.idea/
+
+## ASP.NET Secrets and config
+appsettings.Development.json
+secrets.json
+
+## ASP.NET logs
+*.log
+
+## Dotnet tools
+**/.vs/
+**/.vscode/
+**/.DS_Store
+
+## Ignore publish output
+publish/
+wwwroot/
+
+## Ignore node modules (if using npm/yarn in the project)
+node_modules/
+
+## Ignore migrations if you don’t want to track them
+# Migrations/
+
+## Ignore coverage tools
+coverage/
+*.coverage
+*.coveragexml
+TestResults/
+
+## Ignore packages (if using packages.config style)
+packages/
