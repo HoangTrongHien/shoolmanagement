@@ -12,8 +12,8 @@ using SchoolManagement.Data;
 namespace SchoolManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250423045040_InitDatabase")]
-    partial class InitDatabase
+    [Migration("20250423092848_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -128,9 +128,8 @@ namespace SchoolManagement.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("DateofBirth")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("DateofBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()

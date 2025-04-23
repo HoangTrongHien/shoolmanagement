@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace SchoolManagement.Models.Entities
 {
@@ -17,6 +18,7 @@ namespace SchoolManagement.Models.Entities
 
         public string Phone { get; set; } = null!;
 
+        // [JsonIgnore]
         public TeacherAccount TeacherAccount { get; set; } = null!;
 
         public ICollection<TeacherSubscription> TeacherSubscriptions { get; set; } = null!;

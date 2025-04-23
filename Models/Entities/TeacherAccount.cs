@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SchoolManagement.Models.Entities
 {
@@ -7,6 +8,8 @@ namespace SchoolManagement.Models.Entities
     {
         [Key, ForeignKey("Teacher")]
         public int Id { get; set; }
+
+        // [JsonIgnore]
         public Teacher Teacher { get; set; } = null!;
 
         [Required]
