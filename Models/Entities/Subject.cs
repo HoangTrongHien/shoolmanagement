@@ -7,10 +7,10 @@ namespace SchoolManagement.Models.Entities
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public string Description { get; set; }
+        public string Description { get; set; } = null!;
 
-        public ICollection<OnTeachClass> OnTeachClasses { get; set; }
+        public ICollection<OnTeachClass> OnTeachClasses { get; set; } = null!;
     }
 }

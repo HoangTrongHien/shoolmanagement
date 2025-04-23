@@ -4,23 +4,22 @@ namespace SchoolManagement.Models.Entities
 {
     public class Teacher
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         public DateTime DateofBirth { get; set; }
 
         [Required]
-        public string Specialized { get; set; }
+        public string Specialized { get; set; } = null!;
 
-        public string Phone { get; set; }
+        public string Phone { get; set; } = null!;
 
-        public int UserId { get; set; } //TODO
+        public TeacherAccount TeacherAccount { get; set; } = null!;
 
-        public ICollection<TeacherSubscription> TeacherSubscriptions { get; set; }
+        public ICollection<TeacherSubscription> TeacherSubscriptions { get; set; } = null!;
 
-        public TeacherAccount TeacherAccount { get; set; }
     }
 }

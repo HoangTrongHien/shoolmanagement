@@ -45,3 +45,4 @@ TestResults/
 
 ## Ignore packages (if using packages.config style)
 packages/
+appsettings.json

@@ -8,21 +8,21 @@ namespace SchoolManagement.Models.Entities
 
         [Required]
         public int SubjectId { get; set; }
-        public Subject Subject { get; set; }
+        public Subject Subject { get; set; } = null!;
 
         [Required]
-        public string Semester { get; set; }
+        public string Semester { get; set; } = null!;
 
         [Required]
         public int ScheduleId { get; set; }
-        public Schedule Schedule { get; set; }
+        public Schedule Schedule { get; set; } = null!;
 
 
-        public ICollection<Attendance> Attendances { get; set; }
+        public ICollection<Attendance> Attendances { get; set; } = null!;
 
-        public ICollection<StudentSubscription> StudentSubscriptions { get; set; }
+        public ICollection<StudentSubscription> StudentSubscriptions { get; set; } = null!;
 
-        public ICollection<TeacherSubscription> TeacherSubscriptions { get; set; }
+        public ICollection<TeacherSubscription> TeacherSubscriptions { get; set; } = null!;
 
     }
 }

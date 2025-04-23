@@ -6,12 +6,12 @@ namespace SchoolManagement.Models.Entities
     {
         public int Id { get; set; }
 
-        public int ScheduleId { get; set; }
-        public Schedule Schedule { get; set; }
+        public int ScheduleId { get; set; } 
+        public Schedule Schedule { get; set; } = null!;
 
         [Required]
-        public DateTime Time { get; set; }
+        public DateTime Time { get; set; } 
 
-        public string Address { get; set; }
+        public string Address { get; set; } = null!;
     }
 }

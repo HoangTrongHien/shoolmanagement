@@ -7,7 +7,7 @@ namespace SchoolManagement.Models.Entities
         public int Id { get; set; }
 
 
-        public ICollection<ScheduleInformation> ScheduleInformations { get; set; }
-        public ICollection<OnTeachClass> OnTeachClasses { get; set; }
+        public ICollection<ScheduleInformation> ScheduleInformations { get; set; } = null!;
+        public ICollection<OnTeachClass> OnTeachClasses { get; set; } = null!;
     }
 }
