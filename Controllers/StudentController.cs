@@ -26,6 +26,9 @@ public class StudentController : ControllerBase
         var studentDtos = students.Select(student => new StudentResponseDTO{
             Id = student.Id,
             Name = student.Name,
+            DateofBirth = student.DateofBirth,
+            Specialized = student.Specialized,
+            Phone = student.Phone,
             Email = student.Email,
         }).ToList();
         
@@ -49,14 +52,17 @@ public class StudentController : ControllerBase
         return Ok(new StudentResponseDTO{
             Id = student.Id,
             Name = student.Name,
+            DateofBirth = student.DateofBirth,
+            Specialized = student.Specialized,
+            Phone = student.Phone,
             Email = student.Email,
         });
     }
 
     /// <summary>
-    /// Create student with init student account
+    /// Create student without init student account
     /// </summary>
-    [HttpPost("CreateStudent")]
+    [HttpPost]
     public IActionResult CreateStudent(CreateStudentDTO obj)
     {
         Student student = new Student(){
@@ -77,9 +83,13 @@ public class StudentController : ControllerBase
             return NotFound("Can not create student");            
         }
         
+        // return CreatedAtAction(nameof(GetStudentById), new {id = student.Id}, student);
         return Ok(new StudentResponseDTO{
             Id = student.Id,
             Name = student.Name,
+            DateofBirth = student.DateofBirth,
+            Specialized = student.Specialized,
+            Phone = student.Phone,
             Email = student.Email,
         });
     }
@@ -129,8 +139,81 @@ public class StudentController : ControllerBase
         return Ok(new StudentResponseDTO{
             Id = student.Id,
             Name = student.Name,
+            DateofBirth = student.DateofBirth,
+            Specialized = student.Specialized,
+            Phone = student.Phone,
             Email = student.Email,
             Username = sa.Username,
+        });
+    }
+
+    /// <summary>
+    /// Edit student by Id
+    /// </summary>
+    [HttpPut]
+    [Route("{id:int}")]
+    public IActionResult EditStudent(int id, EditStudentDTO obj)
+    {
+        var student = _dbContext.Students.Find(id);
+
+        if (student == null)
+        {
+            return NotFound("Can not find student to edit");
+        }
+
+        student.Name = obj.Name;
+        student.DateofBirth = obj.DateofBirth;
+        student.Email = obj.Email;
+        student.Phone = obj.Phone;
+        student.Specialized = obj.Specialized;
+
+        try{
+            _dbContext.Students.Update(student);
+            _dbContext.SaveChanges();
+        }catch{
+            return NotFound("Can not Edit Student");
+        }
+
+        return Ok(new StudentResponseDTO{
+            Id = student.Id,
+            Name = student.Name,
+            DateofBirth = student.DateofBirth,
+            Specialized = student.Specialized,
+            Phone = student.Phone,
+            Email = student.Email,
+        });
+    }
+
+    /// <summary>
+    /// Delete student by Id
+    /// </summary>
+    [HttpDelete]
+    [Route("{id:int}")]
+    public IActionResult DeleteStudent(int id)
+    {
+        var student = _dbContext.Students.Find(id);
+
+        if (student == null)
+        {
+            return NotFound("Can not find student to delete");
+        }
+        try
+        {
+            _dbContext.Students.Remove(student);
+            _dbContext.SaveChanges();
+        }
+        catch (System.Exception)
+        {
+            return NotFound("Can not delete student");           
+        }
+
+        return Ok(new StudentResponseDTO{
+            Id = student.Id,
+            Name = student.Name,
+            DateofBirth = student.DateofBirth,
+            Specialized = student.Specialized,
+            Phone = student.Phone,
+            Email = student.Email,
         });
     }
 }
