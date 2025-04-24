@@ -20,9 +20,6 @@ namespace SchoolManagement.Models.Entities
 
         public ICollection<Attendance> Attendances { get; set; } = null!;
 
-        public ICollection<StudentSubscription> StudentSubscriptions { get; set; } = null!;
-
-        public ICollection<TeacherSubscription> TeacherSubscriptions { get; set; } = null!;
-
+        public ICollection<Subscription> Subscriptions { get; set; } = null!;
     }
 }

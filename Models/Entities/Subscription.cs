@@ -2,13 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchoolManagement.Models.Entities
 {
-    public class StudentSubscription
+    public class Subscription
     {
         public int Id { get; set; }
 
         [Required]
-        public int StudentId { get; set; }
-        public Student Student { get; set; } = null!;
+        public int AccountId { get; set; }
+        public Account Account { get; set; } = null!;
 
         [Required]
         public int OnTeachClassId { get; set; }

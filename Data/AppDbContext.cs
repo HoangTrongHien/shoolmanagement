@@ -8,14 +8,11 @@ namespace SchoolManagement.Data
         public DbSet<OnTeachClass> OnTeachClasses { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<ScheduleInformation> ScheduleInformations { get; set; }
-        public DbSet<Student> Students { get; set; }
-        public DbSet<StudentAccount> StudentAccounts { get; set; }
-        public DbSet<StudentSubscription> StudentSubscriptions { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<TeacherAccount> TeacherAccounts { get; set; }
-        public DbSet<TeacherSubscription> TeacherSubscriptions { get; set; }
-
+        public DbSet<Role> Roles { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             
@@ -39,20 +36,20 @@ namespace SchoolManagement.Data
                 .WithMany(d => d.ScheduleInformations)
                 .HasForeignKey(a => a.ScheduleId);
 
-            modelBuilder.Entity<TeacherSubscription>()
-                .HasOne(a => a.Teacher)
-                .WithMany(d => d.TeacherSubscriptions)
-                .HasForeignKey(a => a.TeacherId);
+            modelBuilder.Entity<Subscription>()
+                .HasOne(a => a.Account)
+                .WithMany(d => d.Subscriptions)
+                .HasForeignKey(a => a.AccountId);
 
-            modelBuilder.Entity<TeacherSubscription>()
+            modelBuilder.Entity<Subscription>()
                 .HasOne(a => a.OnTeachClass)
-                .WithMany(d => d.TeacherSubscriptions)
+                .WithMany(d => d.Subscriptions)
                 .HasForeignKey(a => a.OnTeachClassId);
 
             modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.TeacherSubscription)
+                .HasOne(a => a.Subscription)
                 .WithMany(d => d.Attendances)
-                .HasForeignKey(a => a.TeacherSubscriptionId)
+                .HasForeignKey(a => a.SubscriptionId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Attendance>()
@@ -60,32 +57,25 @@ namespace SchoolManagement.Data
                 .WithMany(d => d.Attendances)
                 .HasForeignKey(a => a.OnTeachClassId);
 
-            modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.StudentSubscription)
-                .WithMany(d => d.Attendances)
-                .HasForeignKey(a => a.StudentSubscriptionId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<StudentSubscription>()
+            modelBuilder.Entity<Subscription>()
                 .HasOne(a => a.OnTeachClass)
-                .WithMany(d => d.StudentSubscriptions)
+                .WithMany(d => d.Subscriptions)
                 .HasForeignKey(a => a.OnTeachClassId);
 
-            modelBuilder.Entity<StudentSubscription>()
-                .HasOne(a => a.Student)
-                .WithMany(d => d.StudentSubscriptions)
-                .HasForeignKey(a => a.StudentId);
+            modelBuilder.Entity<Subscription>()
+                .HasOne(a => a.Account)
+                .WithMany(d => d.Subscriptions)
+                .HasForeignKey(a => a.AccountId);
 
-            modelBuilder.Entity<Student>()
-                .HasOne(s => s.StudentAccount)
-                .WithOne(sa => sa.Student)
-                .HasForeignKey<StudentAccount>(sa => sa.Id);
-            
-            modelBuilder.Entity<Teacher>()
-                .HasOne(s => s.TeacherAccount)
-                .WithOne(sa => sa.Teacher)
-                .HasForeignKey<TeacherAccount>(sa => sa.Id);
+            modelBuilder.Entity<Person>()
+                .HasOne(s => s.Account)
+                .WithOne(sa => sa.Person)
+                .HasForeignKey<Account>(sa => sa.Id);
 
+            modelBuilder.Entity<Person>()
+                .HasOne(a => a.Role)
+                .WithMany(b => b.Persons)
+                .HasForeignKey(a => a.RoleId);
         }
     }
 }

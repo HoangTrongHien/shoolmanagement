@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace SchoolManagement.Models.Entities
 {
-    public class Student
+    public class Person
     {
         [Key]
         public int Id { get; set; }
@@ -14,17 +14,16 @@ namespace SchoolManagement.Models.Entities
 
         public DateTime DateofBirth { get; set; }
 
-        [Required]
-        public string Specialized { get; set; } = null!;
-
         public string Phone { get; set; } = null!;
 
         public string Email { get; set; } = null!;
-        
-        // [JsonIgnore]
-        public StudentAccount StudentAccount { get; set; } = null!;
 
-        public ICollection<StudentSubscription> StudentSubscriptions { get; set; } = new List<StudentSubscription>();
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
+        
+        public Account Account { get; set; } = null!;
+
+        public ICollection<Subscription> StudentSubscriptions { get; set; } = new List<Subscription>();
     }
 
 }

@@ -1,10 +1,12 @@
-public class StudentResponseDTO
+namespace SchoolManagement.Models.DTOs;
+
+public class EditPersonDTO
 {
-    public int Id { get; set; }
     public string Name { get; set; } = null!;
     public DateTime DateofBirth { get; set; }
     public string Specialized { get; set; } = null!;
     public string Phone { get; set; } = null!;
     public string Email { get; set; } = null!;
-    public string? Username { get; set; }
+    public int RoleId { get; set; }
+
 }
