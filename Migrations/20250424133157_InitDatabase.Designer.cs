@@ -12,8 +12,8 @@ using SchoolManagement.Data;
 namespace SchoolManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250424085518_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20250424133157_InitDatabase")]
+    partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -118,31 +118,15 @@ namespace SchoolManagement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("Persons");
-                });
-
-            modelBuilder.Entity("SchoolManagement.Models.Entities.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Persons");
+
+                    b.HasDiscriminator<string>("Role").HasValue("Person");
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.Entities.Schedule", b =>
@@ -235,6 +219,28 @@ namespace SchoolManagement.Migrations
                     b.ToTable("Subscriptions");
                 });
 
+            modelBuilder.Entity("SchoolManagement.Models.Entities.Student", b =>
+                {
+                    b.HasBaseType("SchoolManagement.Models.Entities.Person");
+
+                    b.Property<string>("Specialized")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Student");
+                });
+
+            modelBuilder.Entity("SchoolManagement.Models.Entities.Teacher", b =>
+                {
+                    b.HasBaseType("SchoolManagement.Models.Entities.Person");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Teacher");
+                });
+
             modelBuilder.Entity("SchoolManagement.Models.Entities.Account", b =>
                 {
                     b.HasOne("SchoolManagement.Models.Entities.Person", "Person")
@@ -282,17 +288,6 @@ namespace SchoolManagement.Migrations
                     b.Navigation("Schedule");
 
                     b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("SchoolManagement.Models.Entities.Person", b =>
-                {
-                    b.HasOne("SchoolManagement.Models.Entities.Role", "Role")
-                        .WithMany("Persons")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.Entities.ScheduleInformation", b =>
@@ -347,11 +342,6 @@ namespace SchoolManagement.Migrations
                         .IsRequired();
 
                     b.Navigation("StudentSubscriptions");
-                });
-
-            modelBuilder.Entity("SchoolManagement.Models.Entities.Role", b =>
-                {
-                    b.Navigation("Persons");
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.Entities.Schedule", b =>

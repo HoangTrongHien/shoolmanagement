@@ -1,6 +1,8 @@
+using SchoolManagement.Models.Entities;
+
 namespace SchoolManagement.Repositories.Interfaces;
 
-public interface ITeacherRepository : GenericRepository<Teacher>
+public interface ITeacherRepository : IGenericRepository<Teacher>
 {
     
 }

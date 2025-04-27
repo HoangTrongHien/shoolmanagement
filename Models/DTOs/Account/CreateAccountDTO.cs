@@ -1,4 +1,4 @@
-namespace SchoolManagement.Models.DTOs;
+namespace SchoolManagement.Models.DTOs.Account;
 
 public class CreateAccountDTO
 {

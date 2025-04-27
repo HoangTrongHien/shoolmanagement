@@ -12,6 +12,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     public GenericRepository(AppDbContext dbContext)
     {
         _dbContext = dbContext;
+        _dbSet = _dbContext.Set<T>();
     }
 
     public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();

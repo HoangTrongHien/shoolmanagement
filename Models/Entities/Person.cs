@@ -18,8 +18,7 @@ namespace SchoolManagement.Models.Entities
 
         public string Email { get; set; } = null!;
 
-        public int RoleId { get; set; }
-        public Role Role { get; set; }
+        public string Role { get; set; } = "Person";
         
         public Account Account { get; set; } = null!;
 

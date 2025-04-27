@@ -12,7 +12,7 @@ public class UnitOfWork : IUnitOfWork
 
     public UnitOfWork(AppDbContext dbContext)
     {
-        _dbContext = dbContext
+        _dbContext = dbContext;
         Students = new StudentRepository(_dbContext);
         Teachers = new TeacherRepository(_dbContext);
     }

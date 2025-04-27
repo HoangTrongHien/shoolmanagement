@@ -1,6 +1,8 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Data;
-using SchoolManagement.Models.DTOs;
+using SchoolManagement.Models.DTOs.Person;
 using SchoolManagement.Models.Entities;
 
 namespace SchoolManagement.Controllers;
@@ -19,9 +21,9 @@ public class PersonController : ControllerBase
     /// Get the list of all persons
     /// </summary>
     [HttpGet]
-    public IActionResult GetAllPersons()
+    public async Task<IActionResult> GetAllPersons()
     {
-        var persons = _dbContext.Persons.ToList();
+        var persons = await _dbContext.Persons.Include(p => p.Account).ToListAsync();
 
         var personDtos = persons.Select(person => new PersonResponseDTO{
             Id = person.Id,
@@ -29,6 +31,8 @@ public class PersonController : ControllerBase
             DateofBirth = person.DateofBirth,
             Phone = person.Phone,
             Email = person.Email,
+            Role = person.Role,
+            Username = person.Account?.Username
         }).ToList();
         
         return Ok(personDtos);
@@ -39,9 +43,9 @@ public class PersonController : ControllerBase
     /// </summary>
     [HttpGet]
     [Route("{id:int}")]
-    public IActionResult GetPersonById(int id)
+    public async Task<IActionResult> GetPersonById(int id)
     {
-        var person = _dbContext.Persons.Find(id);
+        var person = await _dbContext.Persons.Include(p => p.Account).FirstOrDefaultAsync(p => p.Id == id);
 
         if (person == null)
         {
@@ -53,8 +57,9 @@ public class PersonController : ControllerBase
             Name = person.Name,
             DateofBirth = person.DateofBirth,
             Phone = person.Phone,
-            RoleId = person.RoleId,
+            Role = person.Role,
             Email = person.Email,
+            Username = person.Account?.Username
         });
     }
 
@@ -62,20 +67,20 @@ public class PersonController : ControllerBase
     /// Create person without init account
     /// </summary>
     [HttpPost]
-    public IActionResult CreatePerson(CreatePersonDTO obj)
+    public async Task<IActionResult> CreatePerson(CreatePersonDTO obj)
     {
         Person person = new Person(){
             Name = obj.Name,
             DateofBirth = obj.DateofBirth,
             Phone = obj.Phone,
             Email = obj.Email,
-            RoleId = obj.RoleId,
+            Role = obj.Role,
         };
 
         try
         {
             _dbContext.Persons.Add(person);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
         catch (System.Exception e)
         {
@@ -88,7 +93,8 @@ public class PersonController : ControllerBase
             DateofBirth = person.DateofBirth,
             Phone = person.Phone,
             Email = person.Email,
-            RoleId = person.RoleId
+            Role = person.Role,
+            Username = person.Account?.Username,
         });
     }
 
@@ -96,7 +102,7 @@ public class PersonController : ControllerBase
     /// Create person within init account
     /// </summary>
     [HttpPost("CreatePersonWithAccount")]
-    public IActionResult CreatePersonWithAccount(CreatePersonWithAccountDTO obj)
+    public async Task<IActionResult> CreatePersonWithAccount(CreatePersonWithAccountDTO obj)
     {
         Person person = new Person()
         {
@@ -104,18 +110,8 @@ public class PersonController : ControllerBase
             DateofBirth = obj.DateofBirth,
             Phone = obj.Phone,
             Email = obj.Email,
-            RoleId = obj.RoleId,
+            Role = obj.Role,    
         };
-
-        try
-        {
-            _dbContext.Persons.Add(person);
-            _dbContext.SaveChanges();
-        }
-        catch (System.Exception)
-        {
-            return NotFound("Can not create person before create person account");            
-        }
 
         Account account = new Account()
         {
@@ -124,11 +120,14 @@ public class PersonController : ControllerBase
             Password = obj.Password,
             Person = person,
         };
+
+        person.Account = account;
         try
         {
+            _dbContext.Persons.Add(person);
             _dbContext.Accounts.Add(account);
-            _dbContext.SaveChanges();
-        }
+            await _dbContext.SaveChangesAsync();
+        } 
         catch (System.Exception)
         {
             return NotFound("person created but can not create person account");            
@@ -140,8 +139,8 @@ public class PersonController : ControllerBase
             DateofBirth = person.DateofBirth,
             Phone = person.Phone,
             Email = person.Email,
-            RoleId = person.RoleId,
-            Username = account.Username,
+            Role = person.Role,
+            Username = person.Account?.Username,
         });
     }
 
@@ -163,7 +162,7 @@ public class PersonController : ControllerBase
         person.DateofBirth = obj.DateofBirth;
         person.Email = obj.Email;
         person.Phone = obj.Phone;
-        person.RoleId = obj.RoleId;
+        person.Role = obj.Role;
 
         try{
             _dbContext.Persons.Update(person);
@@ -176,9 +175,10 @@ public class PersonController : ControllerBase
             Id = person.Id,
             Name = person.Name,
             DateofBirth = person.DateofBirth,
-            RoleId = person.RoleId,
+            Role = person.Role,
             Phone = person.Phone,
             Email = person.Email,
+            Username = person.Account?.Username
         });
     }
 
@@ -209,9 +209,10 @@ public class PersonController : ControllerBase
             Id = person.Id,
             Name = person.Name,
             DateofBirth = person.DateofBirth,
-            RoleId = person.RoleId,
+            Role = person.Role,
             Phone = person.Phone,
             Email = person.Email,
+            Username = person.Account?.Username
         });
     }
 }

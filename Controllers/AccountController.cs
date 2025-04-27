@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Data;
-using SchoolManagement.Models.DTOs;
+using SchoolManagement.Models.DTOs.Account;
 using SchoolManagement.Models.Entities;
 
 namespace SchoolManagement.Controllers;
@@ -71,7 +71,6 @@ public class AccountController : ControllerBase
             return NotFound("This person already has an account");
         }
 
-
         Account account = new Account()
         {
             Id = obj.AccountId,
@@ -79,6 +78,8 @@ public class AccountController : ControllerBase
             Password = obj.Password,
             Person = person
         };
+
+        person.Account = account;
 
         try
         {

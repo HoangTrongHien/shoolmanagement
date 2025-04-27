@@ -1,10 +1,12 @@
-public class PersonResponseDTO
+namespace SchoolManagement.Models.DTOs.Person;
+
+public class CreatePersonDTO
 {
-    public int Id { get; set; }
     public string Name { get; set; } = null!;
     public DateTime DateofBirth { get; set; }
     public string Phone { get; set; } = null!;
     public string Email { get; set; } = null!;
-    public int RoleId { get; set; }
-    public string? Username { get; set; }
+
+    public string Role { get; set; } = null!;
+
 }

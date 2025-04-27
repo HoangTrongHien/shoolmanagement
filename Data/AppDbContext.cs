@@ -9,10 +9,11 @@ namespace SchoolManagement.Data
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<ScheduleInformation> ScheduleInformations { get; set; }
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             
@@ -21,6 +22,12 @@ namespace SchoolManagement.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Person>()
+                .HasDiscriminator<string>("Role")
+                .HasValue<Person>("Person")
+                .HasValue<Student>("Student")
+                .HasValue<Teacher>("Teacher");
+                
             modelBuilder.Entity<OnTeachClass>()
                 .HasOne(a => a.Subject)
                 .WithMany(d => d.OnTeachClasses)
@@ -72,10 +79,6 @@ namespace SchoolManagement.Data
                 .WithOne(sa => sa.Person)
                 .HasForeignKey<Account>(sa => sa.Id);
 
-            modelBuilder.Entity<Person>()
-                .HasOne(a => a.Role)
-                .WithMany(b => b.Persons)
-                .HasForeignKey(a => a.RoleId);
         }
     }
 }

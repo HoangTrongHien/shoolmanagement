@@ -1,5 +1,6 @@
 using SchoolManagement.Data;
 using SchoolManagement.Repositories.Interfaces;
+using SchoolManagement.Models.Entities;
 
 namespace SchoolManagement.Repositories;
 
