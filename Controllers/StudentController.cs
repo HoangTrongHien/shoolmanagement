@@ -74,7 +74,7 @@ public class StudentController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, EditStudentDTO updated)
     {
-        var student = await _unitOfWork.Students.GetByIdAsync(id);
+        var student = await _unitOfWork.Students.GetByIdWithAccountAsync(id);
         if (student == null) return NotFound();
 
         student.Name = updated.Name;
@@ -99,7 +99,7 @@ public class StudentController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var student = await _unitOfWork.Students.GetByIdAsync(id);
+        var student = await _unitOfWork.Students.GetByIdWithAccountAsync(id);
         if (student == null) return NotFound();
 
         _unitOfWork.Students.Delete(student);

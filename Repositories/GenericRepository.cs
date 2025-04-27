@@ -29,6 +29,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         }
         return await query.ToListAsync();
     }
+    public async Task<IEnumerable<T>> GetAllAsync()
+    {
+        var objs = await _dbSet.ToListAsync();
+
+        return objs;
+    }
     public async Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes)
     {
         IQueryable<T> query = _dbSet;
@@ -46,6 +52,10 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
         return obj;
     }
+    public async Task<T> GetByIdAsync(int id)
+    {     
+        return await _dbSet.FindAsync(id);
+    }
 
     public async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
 
@@ -53,13 +63,4 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public void Delete(T entity) => _dbSet.Remove(entity);
 
-    public Task<IEnumerable<T>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<T> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
 }

@@ -149,9 +149,9 @@ public class PersonController : ControllerBase
     /// </summary>
     [HttpPut]
     [Route("{id:int}")]
-    public IActionResult EditPerson(int id, EditPersonDTO obj)
+    public async Task<IActionResult> EditPerson(int id, EditPersonDTO obj)
     {
-        var person = _dbContext.Persons.Find(id);
+        var person = await _dbContext.Persons.Include(p => p.Account).FirstOrDefaultAsync(p => p.Id == id);
 
         if (person == null)
         {
@@ -187,9 +187,9 @@ public class PersonController : ControllerBase
     /// </summary>
     [HttpDelete]
     [Route("{id:int}")]
-    public IActionResult DeletePerson(int id)
+    public async Task<IActionResult> DeletePerson(int id)
     {
-        var person = _dbContext.Persons.Find(id);
+        var person = await _dbContext.Persons.Include(p => p.Account).FirstOrDefaultAsync(p => p.Id == id);
 
         if (person == null)
         {

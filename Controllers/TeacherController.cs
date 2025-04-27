@@ -21,7 +21,18 @@ public class TeacherController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var teachers = await _unitOfWork.Teachers.GetAllWithAccountAsync();
-        return Ok(teachers);
+
+        var teacherDtos = teachers.Select(teacher => new TeacherResponseDTO{
+            Id = teacher.Id,
+            Name = teacher.Name,
+            DateofBirth = teacher.DateofBirth,
+            Phone = teacher.Phone,
+            Email = teacher.Email,
+            Department = teacher.Department,
+            Username = teacher.Account?.Username
+        });
+
+        return Ok(teacherDtos);
     }
 
     [HttpGet]
@@ -34,7 +45,15 @@ public class TeacherController : ControllerBase
         {
             return NotFound();
         }
-        return Ok(teacher);
+        return Ok(new TeacherResponseDTO{
+            Id = teacher.Id,
+            Name = teacher.Name,
+            DateofBirth = teacher.DateofBirth,
+            Phone = teacher.Phone,
+            Email = teacher.Email,
+            Department = teacher.Department,
+            Username = teacher.Account?.Username
+        });
     }
 
     [HttpPost]
@@ -52,14 +71,22 @@ public class TeacherController : ControllerBase
         await _unitOfWork.Teachers.AddAsync(teacher);
         await _unitOfWork.CompleteAsync();
 
-        return Ok(teacher);
+        return Ok(new TeacherResponseDTO{
+            Id = teacher.Id,
+            Name = teacher.Name,
+            DateofBirth = teacher.DateofBirth,
+            Phone = teacher.Phone,
+            Email = teacher.Email,
+            Department = teacher.Department,
+            Username = teacher.Account?.Username
+        });
     }
 
     [HttpPut]
     [Route("{id:int}")]
     public async Task<IActionResult> Update(int id, EditTeacherDTO updated)
     {
-        var teacher = await _unitOfWork.Teachers.GetByIdAsync(id);
+        var teacher = await _unitOfWork.Teachers.GetByIdWithAccountAsync(id);
 
         if (teacher == null) return NotFound();
 
@@ -72,19 +99,35 @@ public class TeacherController : ControllerBase
         _unitOfWork.Teachers.Update(teacher);
         await _unitOfWork.CompleteAsync();
 
-        return Ok(teacher);
+        return Ok(new TeacherResponseDTO{
+            Id = teacher.Id,
+            Name = teacher.Name,
+            DateofBirth = teacher.DateofBirth,
+            Phone = teacher.Phone,
+            Email = teacher.Email,
+            Department = teacher.Department,
+            Username = teacher.Account?.Username
+        });
     }
 
     [HttpDelete]
     [Route("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var teacher = await _unitOfWork.Teachers.GetByIdAsync(id);
+        var teacher = await _unitOfWork.Teachers.GetByIdWithAccountAsync(id);
         if (teacher == null) return NotFound();
 
         _unitOfWork.Teachers.Delete(teacher);
         await _unitOfWork.CompleteAsync();
 
-        return Ok(teacher);
+        return Ok(new TeacherResponseDTO{
+            Id = teacher.Id,
+            Name = teacher.Name,
+            DateofBirth = teacher.DateofBirth,
+            Phone = teacher.Phone,
+            Email = teacher.Email,
+            Department = teacher.Department,
+            Username = teacher.Account?.Username
+        });
     }
 }
