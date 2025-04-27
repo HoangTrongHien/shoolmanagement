@@ -20,8 +20,21 @@ public class TeacherController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var teachers = await _unitOfWork.Teachers.GetAllAsync();
+        var teachers = await _unitOfWork.Teachers.GetAllWithAccountAsync();
         return Ok(teachers);
+    }
+
+    [HttpGet]
+    [Route("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var teacher = await _unitOfWork.Teachers.GetByIdWithAccountAsync(id);
+
+        if (teacher == null)
+        {
+            return NotFound();
+        }
+        return Ok(teacher);
     }
 
     [HttpPost]

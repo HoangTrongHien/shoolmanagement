@@ -19,8 +19,40 @@ public class StudentController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var students = await _unitOfWork.Students.GetAllAsync();
-        return Ok(students);
+        var students = await _unitOfWork.Students.GetAllWithAccountAsync();
+
+        var studentDtos = students.Select(student => new StudentResponseDTO{
+            Id = student.Id,
+            Name = student.Name,
+            DateofBirth = student.DateofBirth,
+            Phone = student.Phone,
+            Email = student.Email,
+            Specialized = student.Specialized,
+            Username = student.Account?.Username
+        });
+        return Ok(studentDtos);
+    }
+
+    [HttpGet]
+    [Route("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var student = await _unitOfWork.Students.GetByIdWithAccountAsync(id);
+
+        if (student == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(new StudentResponseDTO{
+            Id = student.Id,
+            Name = student.Name,
+            DateofBirth = student.DateofBirth,
+            Phone = student.Phone,
+            Email = student.Email,
+            Specialized = student.Specialized,
+            Username = student.Account?.Username
+        });
     }
 
     [HttpPost]
@@ -53,7 +85,15 @@ public class StudentController : ControllerBase
 
         _unitOfWork.Students.Update(student);
         await _unitOfWork.CompleteAsync();
-        return Ok(student);
+        return Ok(new StudentResponseDTO{
+            Id = student.Id,
+            Name = student.Name,
+            DateofBirth = student.DateofBirth,
+            Phone = student.Phone,
+            Email = student.Email,
+            Specialized = student.Specialized,
+            Username = student.Account?.Username
+        });
     }
 
     [HttpDelete("{id}")]
@@ -64,6 +104,14 @@ public class StudentController : ControllerBase
 
         _unitOfWork.Students.Delete(student);
         await _unitOfWork.CompleteAsync();
-        return NoContent();
+        return Ok(new StudentResponseDTO{
+            Id = student.Id,
+            Name = student.Name,
+            DateofBirth = student.DateofBirth,
+            Phone = student.Phone,
+            Email = student.Email,
+            Specialized = student.Specialized,
+            Username = student.Account?.Username
+        });
     }
 }

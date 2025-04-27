@@ -10,4 +10,14 @@ public class TeacherRepository : GenericRepository<Teacher>, ITeacherRepository
     {
         
     }
+
+    public async Task<IEnumerable<Teacher>> GetAllWithAccountAsync()
+    {
+        return await GetAllAsync(p => p.Account);
+    }
+
+    public async Task<Teacher> GetByIdWithAccountAsync(int id)
+    {
+        return await GetByIdAsync(id, p => p.Account);
+    }
 }
