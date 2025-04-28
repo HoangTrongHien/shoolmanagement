@@ -35,7 +35,7 @@ public class AccountController : ControllerBase
     /// Gets account by the ID
     /// </summary>
     [HttpGet]
-    [Route("id:int")]
+    [Route("{id:int}")]
     public IActionResult GetAccountById(int id)
     {
         var account = _dbcontext.Accounts.Find(id);
