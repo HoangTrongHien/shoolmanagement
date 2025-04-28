@@ -162,7 +162,6 @@ public class PersonController : ControllerBase
         person.DateofBirth = obj.DateofBirth;
         person.Email = obj.Email;
         person.Phone = obj.Phone;
-        person.Role = obj.Role;
 
         try{
             _dbContext.Persons.Update(person);

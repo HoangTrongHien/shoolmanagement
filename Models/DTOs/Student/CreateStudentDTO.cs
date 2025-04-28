@@ -1,7 +1,11 @@
-using SchoolManagement.Models.DTOs.Person;
 namespace SchoolManagement.Models.DTOs.Student;
 
-public class CreateStudentDTO : CreatePersonDTO
+public class CreateStudentDTO
 {
+    public string Name { get; set; } = null!;
+    public DateTime DateofBirth { get; set; }
+    public string Phone { get; set; } = null!;
+    public string Email { get; set; } = null!;
+
     public string Specialized { get; set; } = null!;
 }
