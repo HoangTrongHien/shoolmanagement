@@ -7,7 +7,7 @@ using SchoolManagement.Models.Entities;
 
 namespace SchoolManagement.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/person")]
 [ApiController]
 public class PersonController : ControllerBase
 {

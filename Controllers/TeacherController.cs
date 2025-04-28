@@ -8,7 +8,7 @@ using SchoolManagement.Repositories.Interfaces;
 namespace SchoolManagement.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/teacher")]
 public class TeacherController : ControllerBase
 {
     protected readonly IUnitOfWork _unitOfWork;
